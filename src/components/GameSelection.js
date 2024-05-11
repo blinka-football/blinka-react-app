@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { Col, Container, Row, Button, Form } from "react-bootstrap";
 
-const GameSelection = ({ onSelectLevel, onStartGame, disabled }) => {
-  const [selectedLevel, setSelectedLevel] = useState(""); // State to track selected level
+const GameSelection = ({ onSelectLevel, onStartGame, disabled, selectedLevel }) => {
+  const [level, setLevel] = useState(selectedLevel); // State to track selected level
 
   const handleStartGame = () => {
-    // Clear the selected level
-    setSelectedLevel("");
     // Start the game
     onStartGame();
   };
 
   const handleSelectLevel = (event) => {
     // Update selected level
-    setSelectedLevel(event.target.value);
+    setLevel(event.target.value);
     // Call onSelectLevel prop function
     onSelectLevel(event);
   };
@@ -31,7 +29,7 @@ const GameSelection = ({ onSelectLevel, onStartGame, disabled }) => {
               className="mb-3 d-flex justify-content-center"
             >
               <Form.Select
-                value={selectedLevel} // Set value of select to selectedLevel
+                value={level} // Set value of select to selectedLevel
                 onChange={handleSelectLevel}
                 className="custom-select"
                 style={{ marginLeft: "0px" }}
@@ -48,7 +46,7 @@ const GameSelection = ({ onSelectLevel, onStartGame, disabled }) => {
             <Button
               className="startBtn"
               variant="primary"
-              disabled={disabled || !selectedLevel} // Disable button if no level is selected
+              disabled={disabled || !level} // Disable button if no level is selected
               onClick={handleStartGame} // Use handleStartGame function
             >
               <span className="start-btn-text">START GAME ⚽</span>

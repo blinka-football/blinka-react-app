@@ -1,5 +1,3 @@
-// App.js
-
 import './css/styles.css';
 import React, { useState } from 'react';
 import Header from './components/Header';
@@ -25,32 +23,36 @@ const App = () => {
 
     const startCountdown = () => {
         let count = 3;
+        setCountdown(count); // Set initial countdown value
+    
         const countdownInterval = setInterval(() => {
-            setCountdown(count);
             count--;
-            if (count < 0) {
+            if (count === 0) {
                 clearInterval(countdownInterval);
                 setCountdown(null); // Reset countdown state
                 setTimeout(() => {
                     flashColors(selectedLevel, () => setGameStarted(false)); // Start flashing colors after timeout
-                }, 1000); // Wait for 1 second after countdown
+                }, 0); // Wait for 0 milliseconds after countdown
+            } else {
+                setCountdown(count); // Update countdown value
             }
-        }, 1000);
+        }, 1000); // Update countdown every 1000 milliseconds (1 second)
     };
+    
 
     const handleStopGame = () => {
-    stopGame(); // Stop the game
-    setGameStarted(false); // Reset game state
-    setCountdown(3); // Reset countdown state
-    document.body.style.backgroundColor = ''; // Reset background color
-};
+        stopGame(); // Stop the game
+        setGameStarted(false); // Reset game state
+        setCountdown(3); // Reset countdown state
+        document.body.style.backgroundColor = ''; // Reset background color
+    };
 
     return (
         <div>
             <Header />
             <Promo />
             {!gameStarted ? (
-                <GameSelection onSelectLevel={handleSelectLevel} onStartGame={handleStartGame} disabled={!selectedLevel} />
+                <GameSelection onSelectLevel={handleSelectLevel} onStartGame={handleStartGame} disabled={!selectedLevel} selectedLevel={selectedLevel} />
             ) : (
                 <GameContainer stopGame={handleStopGame} countdown={countdown} />
             )}

@@ -29,11 +29,11 @@ export function flashColors(level, endGameCallback) {
     // Create a new instance of the beep audio
     const beepAudio = new Audio(beepSound);
 
-    // Play the beep sound
-    beepAudio.play();
-
     // Delay the start of color flashing by the duration of the beep sound
     setTimeout(() => {
+        // Play the beep sound
+        beepAudio.play();
+
         gameInterval = setInterval(() => {
             let color;
             do {
@@ -50,6 +50,11 @@ export function flashColors(level, endGameCallback) {
             }
 
             counter++;
+            if (counter === 1) { // Check if counter hits 1
+                // Play the beep sound when counter hits 1
+                beepAudio.play();
+            }
+
             if (counter >= NUM_FLASHES) {
                 clearInterval(gameInterval);
                 document.body.style.backgroundColor = ''; // Reset background color
@@ -59,7 +64,7 @@ export function flashColors(level, endGameCallback) {
                 endGameCallback(); // Call the endGameCallback function
             }
         }, duration * 1000);
-    }, beepAudio.duration * 400); // Delay in milliseconds before starting color flashing
+    }, beepAudio.duration * 0);
 }
 
 export function stopGame() {
